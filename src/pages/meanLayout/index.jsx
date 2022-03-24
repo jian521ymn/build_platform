@@ -18,6 +18,14 @@ const routerSecond = ()=>router.reduce((prev, next) => {
     }
     return prev
 },[]);
+const routerSecond1 = () => {
+    return router.reduce((all, next) => {
+        if (next.children) {
+            return [...all, ...next.children]
+        }
+        return all
+    }, [])
+}
 const Home = ({ history = () => { } }) => {
     return (
         <Layout style={{ minHeight: "100vh" }}>
@@ -32,7 +40,15 @@ const Home = ({ history = () => { } }) => {
                 }}
             >
                 <div className="logo" />
-                <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']}>
+                <Menu 
+                    theme="dark" 
+                    mode="inline" 
+                    defaultSelectedKeys={['4']} 
+                    onSelect={({ item, key, keyPath, selectedKeys, domEvent })=>{
+                        console.log(item, key, keyPath, selectedKeys, domEvent);
+                        history.push(key)
+                    }}
+                >
                     {router.map(oneRouter=>{
                         const {breadcrumbName, path, Icons, children} = oneRouter || {}
                         if(!children){
@@ -52,7 +68,7 @@ const Home = ({ history = () => { } }) => {
                 <Header className="site-layout-sub-header-background" style={{ padding: 0 }} />
                 <Content style={{ margin: '24px 16px 0' }}>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: '100vh' }}>
-                            {router.map((item, index) => (
+                            {routerSecond1().map((item, index) => (
                                 <Route
                                     path={item.path}
                                     component={item.component}
@@ -60,7 +76,6 @@ const Home = ({ history = () => { } }) => {
                                     key={index}
                                 />
                             ))}
-                            <Redirect from="/home" to='/home/projectList' />
                     </div>
                 </Content>
             </Layout>

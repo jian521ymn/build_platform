@@ -27,7 +27,7 @@ const PROJECT_STATUS_TYPE ={
 }
 
 const ProjectList = ({ history = () => { } }) => {
-    const [list, setList] = useState([])
+    const [list, setList] = useState([{}])
     useEffect(() => {
         http.get('/api/build_project/list').then(res => {
             if (res.code !== 0) {
