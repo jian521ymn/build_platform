@@ -2,20 +2,21 @@ import logo from './logo.svg';
 import './App.css';
 import {HashRouter, Switch, Route, Redirect} from 'react-router-dom'
 import router from './utils/router';
+import SiderDemo from './pages/meanLayout'
 
 function App() {
   return (
     <div className="App">
       <HashRouter>
         <Switch>
-          {router.map((item, index) => (
-            <Route
-              path={item.path}
-              component={item.component}
-              exact={index === 0}
-              key={index}
-            />
-          ))}
+
+          <Route 
+              path='/home'
+              component={SiderDemo}
+              exact={false}
+          >
+            
+          </Route>
           <Redirect from="/" to='/home' />
         </Switch>
       </HashRouter>

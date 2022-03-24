@@ -2,29 +2,30 @@
 // import React from 'react';
 
 import SiderDemo from "../pages/meanLayout";
+import ProjectList from "../pages/projectList";
 
 
  const router = [
     {
-        path: '/home',
-        component: SiderDemo,
+        breadcrumbName:'项目列表',
+        path: '/home/projectList',
+        component: ProjectList,
+        Icons:''
     },
-    // {
-    //     breadcrumbName:'首页',
-    //     path: '/home',
-    //     component: Home,
-    //     routes: [
-    //         {
-    //             breadcrumbName:'用户列表',
-    //             path: '/home/user/list',
-    //             component: User,
-    //         },
-    //         {
-    //             breadcrumbName:'用户详情',
-    //             path: '/home/user/detail',
-    //             component: Detail,
-    //         },
-    //       ]
-    // },
+    {
+        breadcrumbName:'权限配置',
+        path: '/projectList1',
+        component: ProjectList,
+        Icons:'',
+        children: [
+            {
+                breadcrumbName:'新增',
+                path: '/projectList1/list',
+                component: ProjectList,
+                Icons:''
+            },
+        ]
+    },
+    
 ];
 export default router;
