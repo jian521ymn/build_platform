@@ -13,7 +13,7 @@ function App() {
           path={'/'}
           component={SiderDemo}
         />
-        <Redirect from="/" to='/project' />
+        <Redirect from="/" to='/project/list' />
       </HashRouter>
     </div>
   );

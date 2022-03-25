@@ -6,6 +6,7 @@ import ProjectBuild from "../pages/projectBuild";
 import ProjectList from "../pages/projectList";
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 import ProjectRecord from "../pages/projectRecord";
+import ProjectAdd from "../pages/projectEdit";
 
 
  const router = [
@@ -30,7 +31,14 @@ import ProjectRecord from "../pages/projectRecord";
             {
                 breadcrumbName:'项目发布记录',
                 path: '/project/record',
+                unShow:true,
                 component: ProjectRecord,
+                Icons:''
+            },
+            {
+                breadcrumbName:'项目新增',
+                path: '/project/add',
+                component: ProjectAdd,
                 Icons:''
             },
         ]

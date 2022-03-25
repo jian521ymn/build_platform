@@ -11,14 +11,7 @@ import ProjectList from '../projectList';
 const { SubMenu } = Menu;
 const { Sider, Header, Content, Footer } = Layout;
 
-// 所有二级路由
-const routerSecond = ()=>router.reduce((prev, next) => {
-    if (next?.children) {
-        prev.push(next?.children)
-    }
-    return prev
-},[]);
-const routerSecond1 = () => {
+const routerSecond = () => {
     return router.reduce((all, next) => {
         if (next.children) {
             return [...all, ...next.children]
@@ -27,6 +20,9 @@ const routerSecond1 = () => {
     }, [])
 }
 const Home = ({ history = () => { } }) => {
+    useEffect(() =>{
+        console.log(2);
+    },[history])
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sider
@@ -43,21 +39,21 @@ const Home = ({ history = () => { } }) => {
                 <Menu 
                     theme="dark" 
                     mode="inline" 
-                    defaultSelectedKeys={['4']} 
+                    defaultSelectedKeys={['/project/list']} 
                     onSelect={({ item, key, keyPath, selectedKeys, domEvent })=>{
                         console.log(item, key, keyPath, selectedKeys, domEvent);
                         history.push(key)
                     }}
                 >
                     {router.map(oneRouter=>{
-                        const {breadcrumbName, path, Icons, children} = oneRouter || {}
+                        const {breadcrumbName, path, Icons, children, unShow} = oneRouter || {}
                         if(!children){
-                            return <Menu.Item key={path} icon={Icons} >{breadcrumbName}</Menu.Item>
+                            return !unShow && <Menu.Item key={path} icon={Icons} >{breadcrumbName}</Menu.Item>
                         }
                         return <SubMenu key={path} title={breadcrumbName}>
                         {children.map(secondRouter=>{
-                            const {breadcrumbName, path, Icons} = secondRouter || {}
-                            return <Menu.Item key={path} icon={Icons} >{breadcrumbName}</Menu.Item>
+                            const {breadcrumbName, path, Icons, unShow} = secondRouter || {}
+                            return !unShow && <Menu.Item key={path} icon={Icons} >{breadcrumbName}</Menu.Item>
                         })}
                     </SubMenu>
                     })}
@@ -68,7 +64,7 @@ const Home = ({ history = () => { } }) => {
                 <Header className="site-layout-sub-header-background" style={{ padding: 0 }} />
                 <Content style={{ margin: '24px 16px 0' }}>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: '100vh' }}>
-                            {routerSecond1().map((item, index) => (
+                            {routerSecond().map((item, index) => (
                                 <Route
                                     path={item.path}
                                     component={item.component}

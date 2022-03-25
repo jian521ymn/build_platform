@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { Layout, Menu, Breadcrumb, Row, Col, Dropdown, Card, Tag } from 'antd';
+import { Row, Col, Card, Tag, Button, Anchor } from 'antd';
+import {Link } from 'react-router-dom';
 import http from '../../api/http';
 import { errorToast } from '../../utils/toast';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -27,7 +28,7 @@ const PROJECT_STATUS_TYPE ={
 }
 
 const ProjectList = ({ history = () => { } }) => {
-    const [list, setList] = useState([{}])
+    const [list, setList] = useState([])
     useEffect(() => {
         http.get('/api/build_project/list').then(res => {
             if (res.code !== 0) {
@@ -39,6 +40,9 @@ const ProjectList = ({ history = () => { } }) => {
     }, [])
     return (
         <Row gutter={0}>
+            <Col span={24} style={{textAlign: 'left', fontSize:'20px'}}>
+                <Button type="primary">项目列表</Button>
+            </Col>
             {list.map((item) => {
                 const { type=[], name, remark_name, origin_ssh_url, operator, operating_time, status, item_key } = item || {}
                 return (
@@ -59,6 +63,9 @@ const ProjectList = ({ history = () => { } }) => {
                     </Col>
                 )
             })}
+            <Link className="fiexed-additem" to="/project/add">
+                项目新增
+            </Link>
         </Row>
     );
 }
