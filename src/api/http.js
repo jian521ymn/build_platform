@@ -3,7 +3,7 @@
 import axios from 'axios';
 // import getCookie from '../utils/getCookie';
 import { errorToast } from '../utils/toast';
-const baseURL = process.env.NODE_ENV === "development" ? 'http://localhost:3000/' : 'http://114.215.183.5'
+const baseURL = process.env.NODE_ENV === "development" ? 'http://localhost:3334/' : 'http://114.215.183.5:3334'
 // const  {token, userNames} = getCookie()
 const http = axios.create({
     // 请求的超时时间；如果该请求超过2000ms，那么该请求就停止
@@ -34,9 +34,7 @@ http.interceptors.response.use(function(response){
     const {code, msg} = data;
     if(code === 9999){
         window.location.href = '/login'
-    }
-    if(code !== 0) {
-        errorToast(msg || '网络异常，请重试')
+        return
     }
     return response.data
 },function(err){

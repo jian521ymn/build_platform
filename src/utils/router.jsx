@@ -41,19 +41,13 @@ import ProjectAdd from "../pages/projectEdit";
                 component: ProjectAdd,
                 Icons:''
             },
-        ]
-    },
-    {
-        breadcrumbName:'权限配置',
-        path: '/projectList1',
-        component: ProjectList,
-        Icons:'',
-        children: [
             {
-                breadcrumbName:'新增',
-                path: '/projectList1/list',
-                component: ProjectList,
-                Icons:''
+                breadcrumbName:'项目编辑',
+                path: '/project/edit',
+                component: ProjectAdd,
+                unShow:true,
+                Icons:'',
+                props:{isEdit:true}
             },
         ]
     },

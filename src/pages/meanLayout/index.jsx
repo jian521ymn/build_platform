@@ -20,9 +20,6 @@ const routerSecond = () => {
     }, [])
 }
 const Home = ({ history = () => { } }) => {
-    useEffect(() =>{
-        console.log(2);
-    },[history])
     return (
         <Layout style={{ minHeight: "100vh" }}>
             <Sider
@@ -39,7 +36,7 @@ const Home = ({ history = () => { } }) => {
                 <Menu 
                     theme="dark" 
                     mode="inline" 
-                    defaultSelectedKeys={['/project/list']} 
+                    // defaultSelectedKeys={} 
                     onSelect={({ item, key, keyPath, selectedKeys, domEvent })=>{
                         console.log(item, key, keyPath, selectedKeys, domEvent);
                         history.push(key)
@@ -64,14 +61,18 @@ const Home = ({ history = () => { } }) => {
                 <Header className="site-layout-sub-header-background" style={{ padding: 0 }} />
                 <Content style={{ margin: '24px 16px 0' }}>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: '100vh' }}>
-                            {routerSecond().map((item, index) => (
-                                <Route
-                                    path={item.path}
-                                    component={item.component}
-                                    exact
-                                    key={index}
-                                />
-                            ))}
+                            {routerSecond().map((item, index) =>{
+                                const props =item?.props || {}
+                                return  (
+                                    <Route
+                                        path={item.path}
+                                        exact
+                                        key={index}
+                                    >
+                                        <item.component {...props} history={history} />
+                                    </Route>
+                                )
+                            })}
                     </div>
                 </Content>
             </Layout>

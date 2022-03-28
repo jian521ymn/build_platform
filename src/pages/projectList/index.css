@@ -41,3 +41,6 @@
   background: rgba(18,98,253,1);
   box-shadow:0px 1px 10px 0px rgba(18,98,253,1)
 }
+.card-btn button{
+  margin-left: 10px;
+}
