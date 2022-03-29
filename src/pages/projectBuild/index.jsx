@@ -96,7 +96,7 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
     return (
         <>
             <div style={{ textAlign: 'left', fontSize: '20px', marginBottom: '50px' }}>
-                <Button type="primary">项目发布1</Button>
+                <Button type="primary">项目发布</Button>
             </div>
             <Form
                 name="basic"
