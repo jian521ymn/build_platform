@@ -41,6 +41,17 @@ const getprojectDetails = (form, setOptions) => {
         getBranch(setOptions, data?.name)
     })
 }
+// 获取项目基本信息
+const getprojectDetails1 = (setStep) => {
+    projectDetails({ item_key: getQuery().item_key }).then(res => {
+        const { code, data } = res || {}
+        if (code != 0) {
+            errorToast(res?.msg)
+            return
+        }
+        setStep(res?.data?.status)
+    })
+}
 // 获取分支信息
 const getBranch = (setOptions, name) => {
     projectBranch({ name }).then(res => {
@@ -62,7 +73,18 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
                 errorToast(res?.msg)
                 return
             }
-            setStep(res.data?.step)
+            // setStep(res.data?.step)
+            let timer =null
+            timer=setInterval(() => {
+                setStep(num=>{
+                    if(num === 5){
+                        clearInterval(timer)
+                    }else{
+                        getprojectDetails1(setStep)
+                    }
+                    return num
+                })
+            }, 500);
         })
 
     };
