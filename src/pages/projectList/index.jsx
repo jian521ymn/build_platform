@@ -83,7 +83,7 @@ const ProjectList = ({ history = () => { } }) => {
                 <Button type="primary">项目列表</Button>
             </Col>
             {list.map((item) => {
-                const { type = [], name, remark_name, origin_ssh_url, operator, operating_time, status, item_key } = item || {}
+                const { type = [], name, remark_name, operating_branch, operator, operating_time, status, item_key } = item || {}
                 return (
                     <Col span={8} key={item_key} style={{ padding: '10px' }}>
                         <Card
@@ -96,13 +96,14 @@ const ProjectList = ({ history = () => { } }) => {
                         >
                             <p>项目类型：{(Array.isArray(type) ? type : [type]).map(color => <Tag color={PROJECT_TYPE[color]}>{color}</Tag>)}</p>
                             <p>最近操作人：{operator}</p>
+                            <p>最近发布分支：{operating_branch || '-'}</p>
                             <p>最近操作时间：{operating_time}</p>
                             <p>最近发布状态：<Tag color={PROJECT_STATUS_TYPE[status]}>{PROJECT_STATUS[status]}{status === 'loading' && <LoadingOutlined />}</Tag></p>
                             <p>操作：
                                 <span className="card-btn">
                                     <Button {...btnStyle} onClick={() =>history.push(`/project/edit?item_key=${item_key}`)}>编辑</Button>
                                     <Button {...btnStyle} onClick={() => deleteProject(item_key, update)}>删除</Button>
-                                    <Button {...btnStyle}>去发布</Button>
+                                    <Button {...btnStyle} onClick={() =>history.push(`/project/build?item_key=${item_key}`)}>去发布</Button>
                                     <Button {...btnStyle}>部署记录</Button>
                                 </span>
                             </p>

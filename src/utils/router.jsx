@@ -29,7 +29,7 @@ import ProjectAdd from "../pages/projectEdit";
                 Icons:''
             },
             {
-                breadcrumbName:'项目发布记录',
+                breadcrumbName:'项目部署记录',
                 path: '/project/record',
                 unShow:true,
                 component: ProjectRecord,
