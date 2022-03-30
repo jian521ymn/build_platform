@@ -84,7 +84,7 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
                     }
                     return num
                 })
-            }, 500);
+            }, 1);
         })
 
     };
