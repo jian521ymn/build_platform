@@ -152,11 +152,13 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
                 </Form.Item>
             </Form>
            {step !== null && <div style={{padding:'20px 50px 60px',border:'1px solid #f5f5f5'}}>
-                <h3 style={{paddingBottom:'30px'}}>发布进度1</h3>
+                <h3 style={{paddingBottom:'30px'}}>发布进度</h3>
                 <Steps current={step}>
                     {BUILD_STATUS.map((item,index)=>{
+                        console.log(step,index,'更新');
                         return (
                             <Step 
+                                key={index}
                                 title={item.title}
                                 status={item.status} 
                                 description={item.description}
