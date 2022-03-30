@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, Select, Steps } from 'antd';
+import { Form, Input, Button, Select, Steps,Checkbox } from 'antd';
 import { projectAdd, projectBranch, projectBuild, projectDetails, projectEdit } from '../../api/project';
 import { errorToast, successToast } from '../../utils/toast';
 import { getQuery } from '../../utils/operationUrl';
@@ -24,6 +24,21 @@ const BUILD_STATUS = [
     {title: 'Update',description: '更新中', status: ''},
     {title: 'Success',description: '发布完成！', status: ''},
 ]
+const projectTypeOptions = [
+    { value: 'node', label: 'node' },
+    { value: 'web', label: 'web' },
+    { value: 'react', label: 'react' },
+    { value: 'vue', label: 'vue' },
+    // { value: 'js', label: 'js' },
+    { value: 'npm', label: 'npm' },
+]
+const projectLevel = {
+    1: '公开项目，一般如官网等',
+    2: '一般项目，一般对外开放客户的管理后台',
+    3: '普通项目，一般指应用场景最多的略有核心的项目',
+    4: '核心项目，一般基础建设平台，万物的基础',
+    5: '机密项目,一般指最核心的项目,除了你自己和老天爷，谁也不告诉！'
+}
 const PROJECT_STATUS_TYPE = {
     fail: '#f50',
     success: '#87d068',
@@ -66,9 +81,9 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
     const [form] = Form.useForm()
     const [options, setOptions] = useState([])
     const [step, setStep] = useState(null)
-    const onFinish = ({name,origin_ssh_url,branch}) => {
+    const onFinish = (values) => {
         setStep(0);
-        projectBuild({name,origin_ssh_url,branch,item_key:getQuery().item_key}).then(res=>{
+        projectBuild({...values,item_key:getQuery().item_key}).then(res=>{
             if (res.code != 0) {
                 errorToast(res?.msg)
                 return
@@ -84,7 +99,7 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
                     }
                     return num
                 })
-            }, 1);
+            }, 666);
         })
 
     };
@@ -123,6 +138,17 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
                     wrapperCol={{ span: 12 }}
                 >
                     <Input disabled placeholder="项目备注名，便于快速识别，选填" />
+                </Form.Item>
+                <Form.Item
+                    label="项目类型"
+                    name="type"
+                    wrapperCol={{ span: 12 }}
+                >
+                    <Checkbox.Group
+                    disabled
+                        style={{ textAlign: 'left' }}
+                        options={projectTypeOptions}
+                    />
                 </Form.Item>
                 <Form.Item
                     label="项目发布分支"
