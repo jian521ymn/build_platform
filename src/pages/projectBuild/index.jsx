@@ -61,7 +61,8 @@ const getprojectDetails1 = (setStep) => {
     projectDetails({ item_key: getQuery().item_key }).then(res => {
         const { code, data } = res || {}
         if (code != 0) {
-            errorToast(res?.msg)
+            errorToast(res?.msg);
+            setStep(null)
             return
         }
         setStep(res?.data?.status)
@@ -158,6 +159,7 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
                 >
                     <Select
                         showSearch
+                        disabled={step !== null}
                         placeholder="请选择发布分支"
                         optionFilterProp="children"
                         options={options}
