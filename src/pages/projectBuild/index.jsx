@@ -91,9 +91,10 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
             }
             // setStep(res.data?.step)
             let timer =null
+            let data = new Date()*1
             timer=setInterval(() => {
                 setStep(num=>{
-                    if(num === 5){
+                    if(num === 5 || new Date()*1 -data >= 10*60*1000){
                         clearInterval(timer)
                     }else{
                         getprojectDetails1(setStep)
