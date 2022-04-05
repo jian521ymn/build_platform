@@ -137,6 +137,7 @@ const ProjectRecord = ({ history = () => { } }) => {
                     bordered
                     dataSource={data?.list} 
                     columns={columns} 
+                    pagination={{ position: ['bottomRight'] }}
                 />;
             </Col>
         </Row>
