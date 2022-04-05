@@ -101,7 +101,7 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
                     }
                     return num
                 })
-            }, 666);
+            }, 2000);
         })
 
     };
@@ -132,6 +132,13 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
                     wrapperCol={{ span: 10 }}
                 >
                     <Input disabled placeholder="项目真实名称，如：build_project" />
+                </Form.Item>
+                <Form.Item
+                    label="项目备注"
+                    name="remark_name"
+                    wrapperCol={{ span: 10 }}
+                >
+                    <Input disabled placeholder="项目备注名称，如：build_project" />
                 </Form.Item>
 
                 <Form.Item

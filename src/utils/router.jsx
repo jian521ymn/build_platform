@@ -29,9 +29,8 @@ import ProjectAdd from "../pages/projectEdit";
                 Icons:''
             },
             {
-                breadcrumbName:'项目部署记录',
+                breadcrumbName:'部署记录',
                 path: '/project/record',
-                unShow:true,
                 component: ProjectRecord,
                 Icons:''
             },

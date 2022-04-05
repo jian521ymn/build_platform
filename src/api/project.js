@@ -7,7 +7,8 @@ const projectApi={
     details:'/api/build_project/details',
     delete:'/api/build_project/delete',
     branch:'/api/build_project/branch',
-    build:'/api/build_project/build'
+    build:'/api/build_project/build',
+    record:'/api/build_project/record'
 };
 export const projectList=(params)=>{
     return http.get(projectApi.list,{params})
@@ -29,4 +30,7 @@ export const projectBranch=(params)=>{
 }
 export const projectBuild=(params)=>{
     return http.post(projectApi.build,params)
+}
+export const projectRecord=(params)=>{
+    return http.get(projectApi.record,{params})
 }
