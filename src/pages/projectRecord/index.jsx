@@ -6,6 +6,7 @@ import { errorToast } from '../../utils/toast';
 import { LoadingOutlined } from '@ant-design/icons';
 import "./index.css"
 import { projectRecord } from '../../api/project';
+import { getQuery } from '../../utils/operationUrl';
 
 const PROJECT_TYPE = {
     node: 'lime',
@@ -75,10 +76,10 @@ const columns = [
 
 const ProjectRecord = ({ history = () => { } }) => {
     const [form] = Form.useForm();
-    const [search, setSrarch] = useState({page_num:1,page_size:10,name:'',remark_name:''});
+    const [search, setSrarch] = useState({page_num:1,page_size:10,name:getQuery().name || '',remark_name:''});
     const [data,setData] =useState([]);
     useEffect(()=>{
-        projectRecord(search).then(res=>{
+        projectRecord({...search}).then(res=>{
             const data=res?.data || {}
             if(res.code !==0){
                 errorToast(res?.msg)
@@ -87,6 +88,7 @@ const ProjectRecord = ({ history = () => { } }) => {
             setData({...data})
         })
     },[JSON.stringify(search)])
+    form.setFieldsValue({name:getQuery().name})
     return (
         <Row gutter={0}>
             <Col span={24}>
@@ -106,14 +108,14 @@ const ProjectRecord = ({ history = () => { } }) => {
                     label="项目名称"
                     name="name"
                 >
-                    <Input style={{minWidth:'300px'}} placeholder="项目真实名称，如：build_project" />
+                    <Input disabled={getQuery().name} style={{minWidth:'300px'}} placeholder="项目真实名称，如：build_project" />
                 </Form.Item>
 
                 <Form.Item
                     label="项目备注名"
                     name="remark_name"
                 >
-                    <Input style={{minWidth:'300px'}} placeholder="项目备注名，便于快速识别" />
+                    <Input disabled={getQuery().name} style={{minWidth:'300px'}} placeholder="项目备注名，便于快速识别" />
                 </Form.Item>
             </Form>
             <br />

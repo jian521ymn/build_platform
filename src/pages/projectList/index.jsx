@@ -114,7 +114,7 @@ const ProjectList = ({ history = () => { } }) => {
                                     <Button {...btnStyle} onClick={() =>history.push(`/project/edit?item_key=${item_key}`)}>编辑</Button>
                                     <Button {...btnStyle} onClick={() => deleteProject(item_key, update)}>删除</Button>
                                     <Button {...btnStyle} onClick={() =>history.push(`/project/build?item_key=${item_key}`)}>去发布</Button>
-                                    <Button {...btnStyle}>部署记录</Button>
+                                    <Button {...btnStyle} onClick={() =>history.push(`/project/record?name=${name}`)}>部署记录</Button>
                                 </span>
                             </p>
 
