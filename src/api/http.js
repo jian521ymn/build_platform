@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 // 进行二次封装的js
 import axios from 'axios';
+import { getQuery } from '../utils/operationUrl';
 // import getCookie from '../utils/getCookie';
 import { errorToast } from '../utils/toast';
 const baseURL = process.env.NODE_ENV === "development" ? 'http://114.215.183.5:3337' : 'http://114.215.183.5:3337'
@@ -19,6 +20,7 @@ const http = axios.create({
     // 给每一个请求拼接一个随机数，防止走缓存；
     params:{
         t:Math.random(),
+        token:getQuery().token || ''
     },
     // timeout: 2000,
 });
