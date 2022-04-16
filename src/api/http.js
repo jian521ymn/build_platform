@@ -22,6 +22,7 @@ const http = axios.create({
         t:Math.random(),
         token:getQuery().token || ''
     },
+    withCredentials:true,
     // timeout: 2000,
 });
 // 请求拦截器 和响应拦截器 
