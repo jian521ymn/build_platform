@@ -35,8 +35,8 @@ http.interceptors.request.use(function(config){
 http.interceptors.response.use(function(response){
     const {data} = response;
     const {code, msg} = data;
-    if(code === 9999){
-        window.location.href = '/login'
+    if(code === 999){
+        window.location.href = `http://114.215.183.5:3336/?callbackurl=${encodeURIComponent(window.location.href)}`
         return
     }
     return response.data
