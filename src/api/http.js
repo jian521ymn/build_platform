@@ -4,7 +4,7 @@ import axios from 'axios';
 import { getQuery } from '../utils/operationUrl';
 // import getCookie from '../utils/getCookie';
 import { errorToast } from '../utils/toast';
-const baseURL = process.env.NODE_ENV === "development" ? 'http://114.215.183.5:3337' : 'http://114.215.183.5:3337'
+const baseURL = process.env.NODE_ENV === "development" ? 'http://localhost:3000' : 'http://114.215.183.5:3337'
 // const  {token, userNames} = getCookie()
 const http = axios.create({
     // 请求的超时时间；如果该请求超过2000ms，那么该请求就停止
