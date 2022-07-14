@@ -59,6 +59,12 @@ const deleteProject = (item_key, update) => {
 
 }
 const projectRestartReq = (name,setLoading) => {
+    // 如果重启的自身项目，则500毫秒后刷新页面
+    if(name === 'build_platform_node') {
+        setTimeout(() => {
+            window.location.reload()
+        }, 500);
+    }
     projectRestart({name}).then(res=>{
         if(res.code !== 0) {
             errorToast(res?.msg);
@@ -72,6 +78,7 @@ const ProjectList = ({ history = () => { } }) => {
     const [list, setList] = useState([]);
     const [num, setNum] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [loadingName, setLoadingName] = useState('');
     useEffect(() => {
         projectList().then(res => {
             if (res.code !== 0) {
@@ -126,8 +133,9 @@ const ProjectList = ({ history = () => { } }) => {
                                     <Button {...btnStyle} onClick={() =>history.push(`/project/build?item_key=${item_key}`)}>去发布</Button>
                                     <Button {...btnStyle} onClick={() =>history.push(`/project/record?name=${name}`)}>部署记录</Button>
                                     {(type === 'node' || type[0] === 'node') && (
-                                        <Button {...btnStyle} loading={loading} onClick={() =>{
+                                        <Button {...btnStyle} loading={loadingName === name && loading} onClick={() =>{
                                             setLoading(true)
+                                            setLoadingName(name)
                                             projectRestartReq(name,setLoading)
                                         }}>
                                             项目重启
