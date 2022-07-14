@@ -31,6 +31,14 @@ const Home = ({ history = () => { } }) => {
                 onCollapse={(collapsed, type) => {
                     console.log(collapsed, type);
                 }}
+                style={{
+                    overflow: 'auto',
+                    height: '100vh',
+                    position: 'fixed',
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                  }}
             >
                 <div className="logo" />
                 <Menu 
@@ -57,9 +65,17 @@ const Home = ({ history = () => { } }) => {
                     
                 </Menu>
             </Sider>
-            <Layout>
-                <Header className="site-layout-sub-header-background" style={{ padding: 0 }} />
-                <Content style={{ margin: '24px 16px 0' }}>
+            <Layout style={{ marginLeft: 200 }}>
+                <Header className="site-layout-sub-header-background" style={{
+                    position: 'fixed',
+                    left: '216px',
+                    top: '0',
+                    bottom: 0,
+                    padding:0,
+                    width:'100vw',
+                    zIndex:'100'
+                  }} />
+                <Content style={{ margin: '80px 0 16px 16px' }}>
                     <div className="site-layout-background" style={{ padding: 24, minHeight: '100vh' }}>
                             {routerSecond().map((item, index) =>{
                                 const props =item?.props || {}
