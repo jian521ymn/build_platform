@@ -7,7 +7,7 @@ import http from '../../api/http';
 import { errorToast, successToast } from '../../utils/toast';
 import { LoadingOutlined } from '@ant-design/icons';
 import "./index.css"
-import { projectDelete, projectList } from '../../api/project';
+import { projectDelete, projectList, projectRestart } from '../../api/project';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
@@ -58,10 +58,20 @@ const deleteProject = (item_key, update) => {
     });
 
 }
+const projectRestartReq = (name,setLoading) => {
+    projectRestart({name}).then(res=>{
+        if(res.code !== 0) {
+            errorToast(res?.msg);
+            return
+        }
+        setLoading(false)
+    })
+}
 
 const ProjectList = ({ history = () => { } }) => {
     const [list, setList] = useState([]);
     const [num, setNum] = useState(0);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         projectList().then(res => {
             if (res.code !== 0) {
@@ -115,6 +125,14 @@ const ProjectList = ({ history = () => { } }) => {
                                     <Button {...btnStyle} onClick={() => deleteProject(item_key, update)}>删除</Button>
                                     <Button {...btnStyle} onClick={() =>history.push(`/project/build?item_key=${item_key}`)}>去发布</Button>
                                     <Button {...btnStyle} onClick={() =>history.push(`/project/record?name=${name}`)}>部署记录</Button>
+                                    {(type === 'node' || type[0] === 'node') && (
+                                        <Button {...btnStyle} loading={loading} onClick={() =>{
+                                            setLoading(true)
+                                            projectRestartReq(name,setLoading)
+                                        }}>
+                                            项目重启
+                                        </Button>
+                                    )}
                                 </span>
                             </p>
 
