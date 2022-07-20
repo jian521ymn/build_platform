@@ -66,11 +66,11 @@ const projectRestartReq = (name,setLoading) => {
         }, 500);
     }
     projectRestart({name}).then(res=>{
+        setLoading(false)
         if(res.code !== 0) {
             errorToast(res?.msg);
             return
         }
-        setLoading(false)
     })
 }
 
