@@ -26,7 +26,8 @@ import ProjectAdd from "../pages/projectEdit";
                 breadcrumbName:'项目发布',
                 path: '/project/build',
                 component: ProjectBuild,
-                Icons:''
+                Icons:'',
+                unShow:true,
             },
             {
                 breadcrumbName:'部署记录',
@@ -38,7 +39,8 @@ import ProjectAdd from "../pages/projectEdit";
                 breadcrumbName:'项目新增',
                 path: '/project/add',
                 component: ProjectAdd,
-                Icons:''
+                Icons:'',
+                unShow:true,
             },
             {
                 breadcrumbName:'项目编辑',

@@ -71,6 +71,18 @@ const columns = [
             return <Tag color={PROJECT_STATUS_TYPE[status]}>{PROJECT_STATUS[status]}{status === 'loading' && <LoadingOutlined />}</Tag>
         }
     },
+    {
+        title: '操作',
+        dataIndex: 'oper',
+        align:'center',
+        key: 'oper',
+        render:(text,record)=>{
+           return <Button onClick={() =>{
+                window.location.href=`/#/project/build`
+           }
+           }>详情</Button>
+        }
+    }
     
 ];
 
