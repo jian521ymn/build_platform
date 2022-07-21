@@ -5,7 +5,7 @@ import router from './utils/router';
 import SiderDemo from './pages/meanLayout'
 
 function App() {
-  console.log(router, 'router');
+  console.log(router, 'router1');
   return (
     <div className="App">
       <HashRouter>
