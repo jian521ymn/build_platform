@@ -7,7 +7,7 @@ import http from '../../api/http';
 import { errorToast, successToast } from '../../utils/toast';
 import { LoadingOutlined } from '@ant-design/icons';
 import "./index.css"
-import { projectDelete, projectList, projectRestart } from '../../api/project';
+import { projectDelete, projectList, projectRecord, projectRestart } from '../../api/project';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
@@ -73,6 +73,19 @@ const projectRestartReq = (name,setLoading) => {
         }
     })
 }
+const projectStatus = async(item_key,history)=>{
+    try {
+       const data = projectRecord({item_key,page_num:1,page_size:10});
+       const {list=[]} =data?.data || {};
+       if(list?.length > 0 && [1,2,3,4].includes(list[0].status) ) {
+            errorToast('项目发布中，请等待！')
+            return
+       }
+       history.push(`/project/build?item_key=${item_key}`)
+    } catch (error) {
+        errorToast('接口异常，请重试')
+    }
+}
 
 const ProjectList = ({ history = () => { } }) => {
     const [list, setList] = useState([]);
@@ -130,7 +143,7 @@ const ProjectList = ({ history = () => { } }) => {
                                 <span className="card-btn">
                                     <Button {...btnStyle} onClick={() =>history.push(`/project/edit?item_key=${item_key}`)}>编辑</Button>
                                     <Button {...btnStyle} onClick={() => deleteProject(item_key, update)}>删除</Button>
-                                    <Button {...btnStyle} onClick={() =>history.push(`/project/build?item_key=${item_key}`)}>去发布</Button>
+                                    <Button {...btnStyle} onClick={() =>projectStatus(item_key,history)}>去发布</Button>
                                     <Button {...btnStyle} onClick={() =>history.push(`/project/record?name=${name}`)}>部署记录</Button>
                                     {(type === 'node' || type[0] === 'node') && (
                                         <Button {...btnStyle} loading={loadingName === name && loading} onClick={() =>{

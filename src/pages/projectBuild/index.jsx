@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Button, Select, Steps,Checkbox } from 'antd';
+import { Form, Input, Button, Select, Steps, Checkbox } from 'antd';
 import { projectAdd, projectBranch, projectBuild, projectDetails, projectEdit } from '../../api/project';
 import { errorToast, successToast } from '../../utils/toast';
 import { getQuery } from '../../utils/operationUrl';
@@ -18,11 +18,11 @@ const PROJECT_TYPE = {
     npm: 'magenta',
 }
 const BUILD_STATUS = [
-    {title: 'Git',description: '拉取分支代码', status: ''},
-    {title: 'Yarn',description: '下载依赖包', status: ''},
-    {title: 'Build',description: '打包代码中', status: ''},
-    {title: 'Update',description: '更新中', status: ''},
-    {title: 'Success',description: '发布完成！', status: ''},
+    { title: 'Git', description: '拉取分支代码', status: '' },
+    { title: 'Yarn', description: '下载依赖包', status: '' },
+    { title: 'Build', description: '打包代码中', status: '' },
+    { title: 'Update', description: '更新中', status: '' },
+    { title: 'Success', description: '发布完成！', status: '' },
 ]
 const projectTypeOptions = [
     { value: 'node', label: 'node' },
@@ -56,7 +56,7 @@ const getprojectDetails = (form, setOptions) => {
         getBranch(setOptions, data?.name)
     })
 }
-// 获取项目基本信息
+// 轮训获取项目基本信息
 const getprojectDetails1 = (setStep) => {
     projectDetails({ item_key: getQuery().item_key }).then(res => {
         const { code, data } = res || {}
@@ -84,19 +84,19 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
     const [step, setStep] = useState(null)
     const onFinish = (values) => {
         setStep(0);
-        projectBuild({...values,item_key:getQuery().item_key}).then(res=>{
+        projectBuild({ ...values, item_key: getQuery().item_key }).then(res => {
             if (res.code != 0) {
                 errorToast(res?.msg)
                 return
             }
             // setStep(res.data?.step)
-            let timer =null
-            let data = new Date()*1
-            timer=setInterval(() => {
-                setStep(num=>{
-                    if(num === 5 || new Date()*1 -data >= 10*60*1000){
+            let timer = null
+            let data = new Date() * 1
+            timer = setInterval(() => {
+                setStep(num => {
+                    if (num === 5 || new Date() * 1 - data >= 10 * 60 * 1000) {
                         clearInterval(timer)
-                    }else{
+                    } else {
                         getprojectDetails1(setStep)
                     }
                     return num
@@ -109,6 +109,22 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
     useEffect(() => {
         if (!getQuery().item_key) return
         getprojectDetails(form, setOptions)
+    }, [])
+    useEffect(() => {
+        if (!getQuery().is_look) return;
+        let timer = null
+        let data = new Date() * 1
+        getprojectDetails1(setStep)
+        timer = setInterval(() => {
+            setStep(num => {
+                if (num === 5 || new Date() * 1 - data >= 10 * 60 * 1000) {
+                    clearInterval(timer)
+                } else {
+                    getprojectDetails1(setStep)
+                }
+                return num
+            })
+        }, 1000);
     }, [])
     return (
         <>
@@ -154,7 +170,7 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
                     wrapperCol={{ span: 12 }}
                 >
                     <Checkbox.Group
-                    disabled
+                        disabled
                         style={{ textAlign: 'left' }}
                         options={projectTypeOptions}
                     />
@@ -187,18 +203,18 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
                     </Button>
                 </Form.Item>
             </Form>
-           {step !== null && <div style={{padding:'20px 50px 60px',border:'1px solid #f5f5f5'}}>
-                <h3 style={{paddingBottom:'30px'}}>发布进度</h3>
+            {step !== null && <div style={{ padding: '20px 50px 60px', border: '1px solid #f5f5f5' }}>
+                <h3 style={{ paddingBottom: '30px' }}>发布进度</h3>
                 <Steps current={step}>
-                    {BUILD_STATUS.map((item,index)=>{
-                        console.log(step,index,'更新');
+                    {BUILD_STATUS.map((item, index) => {
+                        console.log(step, index, '更新');
                         return (
-                            <Step 
+                            <Step
                                 key={index}
                                 title={item.title}
-                                status={item.status} 
+                                status={item.status}
                                 description={item.description}
-                                icon={step === index && <LoadingOutlined />} 
+                                icon={step === index && <LoadingOutlined />}
                             />
                         )
                     })}

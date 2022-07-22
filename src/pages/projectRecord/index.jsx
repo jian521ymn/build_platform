@@ -78,7 +78,7 @@ const columns = [
         key: 'oper',
         render:(text,record)=>{
            return <Button onClick={() =>{
-                window.location.href=`/#/project/build`
+                window.location.href=`/#/project/build?item_key=${record.item_key}&is_look=1`
            }
            }>详情</Button>
         }
@@ -91,7 +91,11 @@ const ProjectRecord = ({ history = () => { } }) => {
     const [search, setSrarch] = useState({page_num:1,page_size:10,name:getQuery().name || '',remark_name:''});
     const [data,setData] =useState([]);
     useEffect(()=>{
-        projectRecord({...search}).then(res=>{
+        getProjectRecordList()
+    },[JSON.stringify(search)])
+    form.setFieldsValue({name:getQuery().name});
+    const getProjectRecordList =(params={})=>{
+        projectRecord({...search,...params}).then(res=>{
             const data=res?.data || {}
             if(res.code !==0){
                 errorToast(res?.msg)
@@ -99,8 +103,7 @@ const ProjectRecord = ({ history = () => { } }) => {
             }
             setData({...data})
         })
-    },[JSON.stringify(search)])
-    form.setFieldsValue({name:getQuery().name})
+    }
     return (
         <Row gutter={0}>
             <Col span={24}>
@@ -149,7 +152,14 @@ const ProjectRecord = ({ history = () => { } }) => {
                     bordered
                     dataSource={data?.list} 
                     columns={columns} 
-                    pagination={{ position: ['bottomRight'] }}
+                    pagination={{ 
+                        position: ['bottomRight'],
+                        total:data?.total,
+                        pageSize:data?.page_size,
+                        current:data?.page_num ,
+                        showSizeChanger:false,
+                        onChange:(page_num)=>getProjectRecordList({page_num})
+                    }}
                 />;
             </Col>
         </Row>
