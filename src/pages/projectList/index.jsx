@@ -75,7 +75,7 @@ const projectRestartReq = (name,setLoading) => {
 }
 const projectStatus = async(item_key,history)=>{
     try {
-       const data = projectRecord({item_key,page_num:1,page_size:10});
+       const data = await projectRecord({item_key,page_num:1,page_size:10});
        const {list=[]} =data?.data || {};
        if(list?.length > 0 && [1,2,3,4].includes(list[0].status) ) {
             errorToast('项目发布中，请等待！')
