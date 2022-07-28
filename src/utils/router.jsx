@@ -7,6 +7,8 @@ import ProjectList from "../pages/projectList";
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 import ProjectRecord from "../pages/projectRecord";
 import ProjectAdd from "../pages/projectEdit";
+import ProductCalendar from "../pages/productCalendar";
+import ProductList from "../pages/productList";
 
 
  const router = [
@@ -52,6 +54,26 @@ import ProjectAdd from "../pages/projectEdit";
             },
         ]
     },
+    {
+        breadcrumbName:'商品配置',
+        path: '/shop',
+        component: <Redirect from="/shop" to='/shop/list' />,
+        Icons:'',
+        children:[
+            {
+                breadcrumbName:'商品列表',
+                path: '/shop/list',
+                component:ProductList,
+                Icons:''
+            },
+            {
+                breadcrumbName:'商品日历',
+                path: '/shop/calender',
+                component: ProductCalendar,
+                Icons:'',
+            },
+        ]
+    }
     
 ];
 export default router;
