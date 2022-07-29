@@ -3,7 +3,7 @@
 import axios from 'axios';
 import getCookie from '../utils/getCookie';
 // 上传文件专用
-const env = process.env.NODE_ENV === "development" ? 'http://localhost:3000' : 'http://114.215.183.5:3337'
+const env = process.env.NODE_ENV === "development" ? 'http://localhost:3000' : ''
 export const orderImport = (params)=>{
     const {
         file,
