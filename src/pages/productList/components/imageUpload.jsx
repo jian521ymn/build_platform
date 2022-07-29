@@ -17,7 +17,7 @@ class ImageUpload extends React.Component {
         imageUrl: ''
     };
     componentDidMount(){
-        this.setState({imageUrl: '' || ''})
+        this.setState({imageUrl: this.props.product_url || ''})
     }
     handleChange = info => {
         if (info.file.status === 'uploading') {
@@ -60,7 +60,8 @@ class ImageUpload extends React.Component {
     }
 
     render () {
-        const { loading, imageUrl } = this.state;
+        const { loading } = this.state;
+        const imageUrl  = this.props.product_url;
         const uploadButton = (
             <div style={{width:'50px'}}>
                 {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -77,7 +78,7 @@ class ImageUpload extends React.Component {
                     beforeUpload={this.beforeUpload}
                     onChange={this.handleChange}
                 >
-                    {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: "50px", borderRadius: '5px' }} /> : uploadButton}
+                    {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: "250px", borderRadius: '5px' }} /> : uploadButton}
                 </Upload>
             </ImgCrop>
         );
