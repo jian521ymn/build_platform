@@ -4,6 +4,7 @@ import "./index.css"
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import { productRecord } from '../../api/product';
+import dayjs from 'dayjs';
 
 
 const getMonthData = (value) => {
@@ -16,10 +17,10 @@ const ProductCalendar = () => {
   const [value, setValue] = useState(moment());
   const [data, setData] = useState({});
   useEffect(() => {
-    productRecord({date:`${moment().year()}${moment().month()<10 ? '0' + (moment().month()+1) : moment().month()+1}`}).then(res=>{
+    productRecord({date:dayjs().format("YYYYMM")}).then(res=>{
       const obj =res?.data?.list.reduce((prev, next) => {
-        const key =Number(next.date.slice(6,8))
-          prev[key] = Array.from(new Set([...(prev[key] || []),next.product_id]));
+          const key =Number(next.date)
+          prev[key] = {...(prev[key]||{}),[next.product_id]:next.product_name}
           return prev
       },{})
       setData(obj)
@@ -37,12 +38,13 @@ const ProductCalendar = () => {
   };
 
   const dateCellRender = (value) => {
-    const list = data[value.date()] || []
+    const date = data[dayjs(value).format("YYYYMMDD")] || {}
+    const list = Object.keys(date)
     return (
       <ul className="events">
         {list.map((item) => (
           <li key={item.content}>
-            <Badge status='success' text={item} />
+            <Badge status='success' text={date[item] + '--完成'} />
           </li>
         ))}
       </ul>
@@ -52,7 +54,7 @@ const ProductCalendar = () => {
   return <Calendar 
     value={value} 
     dateCellRender={dateCellRender} 
-    monthCellRender={monthCellRender} 
+    // monthCellRender={monthCellRender} 
     onChange={(val)=>{
       console.log(val.month(),value.month(),val.year(),value.year());
       if(val.month() !== value.month() || val.year() !== value.year()){
