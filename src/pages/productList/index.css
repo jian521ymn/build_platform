@@ -25,5 +25,5 @@
 
 .card{
   margin-bottom:30px;
-  margin-left: calc((100% - 1250px)/5 );
+  margin-left: calc((100% - 1250px)/6 );
 }

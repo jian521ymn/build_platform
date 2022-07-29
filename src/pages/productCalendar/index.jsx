@@ -11,11 +11,11 @@ const getListData = (value) => {
       listData = [
         {
           type: 'warning',
-          content: 'This is warning event.',
+          content: '长虹1胶枪已拍摄',
         },
         {
           type: 'success',
-          content: 'This is usual event.',
+          content: '长虹2胶枪已拍摄',
         },
       ];
       break;
@@ -24,15 +24,15 @@ const getListData = (value) => {
       listData = [
         {
           type: 'warning',
-          content: 'This is warning event.',
+          content: '长虹3胶枪已拍摄',
         },
         {
           type: 'success',
-          content: 'This is usual event.',
+          content: '长虹4胶枪已拍摄',
         },
         {
           type: 'error',
-          content: 'This is error event.',
+          content: '长虹5胶枪已拍摄',
         },
       ];
       break;
@@ -41,7 +41,7 @@ const getListData = (value) => {
       listData = [
         {
           type: 'warning',
-          content: 'This is warning event',
+          content: '长虹胶枪已拍摄',
         },
         {
           type: 'success',
@@ -95,7 +95,7 @@ const ProductCalendar = () => {
       <ul className="events">
         {listData.map((item) => (
           <li key={item.content}>
-            <Badge status={item.type} text={22222} />
+            <Badge status={item.type} text={item.content} />
           </li>
         ))}
       </ul>

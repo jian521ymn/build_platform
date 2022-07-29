@@ -1,40 +1,38 @@
 import React, { useState } from 'react';
 import { Button, Form, Input, Select,Modal } from 'antd';
+import ImageUpload from './imageUpload';
+import http from '../../../api/http';
+import { errorToast } from '../../../utils/toast';
 
 const { Option } = Select;
 const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  labelCol: { span: 4 },
+  wrapperCol: { span: 20 },
 };
 const tailLayout = {
-  wrapperCol: { offset: 8, span: 16 },
+  wrapperCol: { offset: 4, span: 20 },
 };
 
 const ProductConfirm = ({ title }) => {
     const [visible, setVisible] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [modalText, setModalText] = useState('Content of the modal');
-
+    const [form] = Form.useForm();
     const showModal = () => {
         setVisible(true);
     };
 
     const handleOk = () => {
-        setModalText('The modal will be closed after two seconds');
-        setConfirmLoading(true);
-        setTimeout(() => {
-            setVisible(false);
-            setConfirmLoading(false);
-        }, 2000);
+        form.submit()
     };
 
     const handleCancel = () => {
         console.log('Clicked cancel button');
         setVisible(false);
     };
-    const [form] = Form.useForm();
+   
 
-    const onGenderChange = (value: string) => {
+    const onGenderChange = (value) => {
         switch (value) {
             case 'male':
                 form.setFieldsValue({ note: 'Hi, man!' });
@@ -47,19 +45,8 @@ const ProductConfirm = ({ title }) => {
         }
     };
 
-    const onFinish = (values: any) => {
+    const onFinish = (values) => {
         console.log(values);
-    };
-
-    const onReset = () => {
-        form.resetFields();
-    };
-
-    const onFill = () => {
-        form.setFieldsValue({
-            note: 'Hello world!',
-            gender: 'male',
-        });
     };
     return (
         <>
@@ -73,14 +60,26 @@ const ProductConfirm = ({ title }) => {
                 confirmLoading={confirmLoading}
                 onCancel={handleCancel}
             >
-                <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
-                    <Form.Item name="note" label="Note" rules={[{ required: true }]}>
+                <Form {...layout} form={form} name="control-hooks" onFinish={(val)=>{
+                    setConfirmLoading(true);
+                    http.post('/api/product/add',{...val}).then(res=>{
+                        if(res.code !== 0) {
+                            errorToast(res?.msg || '新增失败');
+                            return
+                        }
+                        setConfirmLoading(false);
+                        setVisible(false)
+                    })
+                    console.log(val)
+                }}>
+                    <Form.Item name="product_name" label="商品名称" rules={[{ required: true }]}>
                         <Input />
                     </Form.Item>
-                    <Form.Item {...tailLayout}>
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
+                    <Form.Item name="product_desc" label="商品介绍" rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="product_url" label="商品图片" rules={[{ required: true }]}>
+                        <ImageUpload onChange={(url)=>form.setFieldValue('product_url',url)} />
                     </Form.Item>
                 </Form>
             </Modal>
