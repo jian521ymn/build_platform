@@ -15,7 +15,7 @@ const tailLayout = {
   wrapperCol: { offset: 4, span: 20 },
 };
 
-const ProductConfirm = ({ title,id,type='', setType }) => {
+const ProductConfirm = ({ title,id,type='', setType,setUpdate }) => {
     const [visible, setVisible] = useState(false);
     const [product_url, setProduct_url] = useState('');
     const [confirmLoading, setConfirmLoading] = useState(false);
@@ -69,11 +69,12 @@ const ProductConfirm = ({ title,id,type='', setType }) => {
                     productAddOrEdit(type === 'add' ? {...val} : {...val,id: form.getFieldValue('id')}).then(res=>{
                         setConfirmLoading(false);
                         if(res.code !== 0) {
-                            errorToast(res?.msg || '新增失败');
+                            errorToast(res?.msg || '操作异常');
                             return
                         }
                         setType('')
                         setVisible(false)
+                        setUpdate()
                     })
                 }}>
                     <Form.Item name="product_name" label="商品名称" rules={[{ required: true }]}>

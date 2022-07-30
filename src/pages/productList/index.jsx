@@ -1,12 +1,13 @@
-import { EditOutlined, DeleteOutlined, SendOutlined } from '@ant-design/icons';
-import { Avatar, Card, Tooltip, Link } from 'antd';
+import { EditOutlined, DeleteOutlined, SendOutlined,ExclamationCircleOutlined } from '@ant-design/icons';
+import { Avatar, Card, Tooltip, Modal, DatePicker } from 'antd';
 import dayjs from 'dayjs';
-import { flow } from 'lodash';
 import React, { useState, useEffect } from 'react';
-import http from '../../api/http';
 import { productDelete, productList, recordCreate } from '../../api/product';
 import { errorToast, successToast } from '../../utils/toast';
 import ProductConfirm from './components/ProductConfirm';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+import locale from 'antd/es/date-picker/locale/zh_CN';
 import './index.css'
 
 const { Meta } = Card;
@@ -43,14 +44,38 @@ const ProductList = () => {
       actions={[
         <TooltipIcon title="发布">
           <SendOutlined onClick={()=>{
-            recordCreate({product_id: id,product_name: title, date:dayjs().format("YYYYMMDD")}).then((res) =>{
-                if(res.code !== 0){
-                  errorToast(res?.msg)
-                  return
-                }
-                successToast(title+'，完成今日视频拍摄！')
-                setUpdate(val=>val+1)
-            })
+            let value = moment()
+             Modal.confirm({
+              title: '选择视频发布日期',
+              icon: <ExclamationCircleOutlined />,
+              content: (
+                <div style={{padding:10}}>
+                    <DatePicker 
+                        style={{width:'100%'}}
+                        defaultValue={value} 
+                        allowClear={false} 
+                        locale={locale} 
+                        onChange={(val)=>{value=val}} 
+                    />
+                </div>
+              ),
+              onOk() {
+                return new Promise((resolve, reject) => {
+                  recordCreate({product_id: id,product_name: title, date:dayjs(value).format('YYYYMMDD')}).then((res) =>{
+                    if(res.code !== 0){
+                      errorToast(res?.msg)
+                      reject()
+                      return
+                    }
+                    resolve()
+                    successToast(title+'，完成视频拍摄！')
+                    setUpdate(val=>val+1)
+                })
+                }).catch(() => console.log('Oops errors!'));
+              },
+              onCancel() {},
+            });
+           
             
           }} />
           </TooltipIcon>,
@@ -88,7 +113,7 @@ const ProductList = () => {
           <ProductCard title={product_name} description={product_desc} src={product_url} id={id} />
         </div>
       })}
-        <ProductConfirm title="商品新增" type={type} setType={setType} id={id}  />
+        <ProductConfirm title="商品新增" type={type} setType={setType} id={id} setUpdate={()=>setUpdate(val=>val+1)}  />
     </div>
   );
 }
