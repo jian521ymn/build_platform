@@ -7,7 +7,7 @@ import http from '../../api/http';
 import { errorToast, successToast } from '../../utils/toast';
 import { LoadingOutlined } from '@ant-design/icons';
 import "./index.css"
-import { projectDelete, projectList, projectRecord, projectRestart } from '../../api/project';
+import { projectBuild, projectDelete, projectList, projectRecord, projectRestart } from '../../api/project';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 const { confirm } = Modal;
@@ -139,12 +139,19 @@ const ProjectList = ({ history = () => { } }) => {
                             <p>最近发布分支：{branch || '-'}</p>
                             <p>最近操作时间：{operating_time}</p>
                             <p>最近发布状态：<Tag color={PROJECT_STATUS_TYPE[status]}>{PROJECT_STATUS[status]}{status === 'loading' && <LoadingOutlined />}</Tag></p>
-                            <p>操作：
-                                <span className="card-btn">
+                            <p style={{display:'flex'}}>操作：
+                                <div className="card-btn">
                                     <Button {...btnStyle} onClick={() =>history.push(`/project/edit?item_key=${item_key}`)}>编辑</Button>
                                     <Button {...btnStyle} onClick={() => deleteProject(item_key, update)}>删除</Button>
                                     <Button {...btnStyle} onClick={() =>projectStatus(item_key,history)}>去发布</Button>
                                     <Button {...btnStyle} onClick={() =>history.push(`/project/record?name=${name}`)}>部署记录</Button>
+                                    <Button {...btnStyle} onClick={() =>{projectBuild({ ...item}).then(res => {
+                                        if(res?.code !== 0){
+                                            errorToast(res?.msg)
+                                        }else{
+                                            successToast('部署中，请稍后刷新查看')
+                                        }
+                                    })}}>一键发布master</Button>
                                     {(type === 'node' || type[0] === 'node') && (
                                         <Button {...btnStyle} loading={loadingName === name && loading} onClick={() =>{
                                             setLoading(true)
@@ -154,7 +161,7 @@ const ProjectList = ({ history = () => { } }) => {
                                             项目重启
                                         </Button>
                                     )}
-                                </span>
+                                </div>
                             </p>
 
                         </Card>
