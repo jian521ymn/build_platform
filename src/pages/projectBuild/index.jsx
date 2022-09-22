@@ -32,6 +32,9 @@ const projectTypeOptions = [
     { value: 'vue3+ts', label: 'vue3+ts' },
     { value: 'npm', label: 'npm' },
 ]
+const projectBuildOptions = [
+    { value: 'isReclone', label: '重新克隆项目（未知异常时，勾选此选项）' },
+]
 const projectLevel = {
     1: '公开项目，一般如官网等',
     2: '一般项目，一般对外开放客户的管理后台',
@@ -195,6 +198,16 @@ const ProjectBuild = ({ history = () => { }, isEdit }) => {
                         filterOption={(input, option) =>
                             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
                         }
+                    />
+                </Form.Item>
+                <Form.Item
+                    label="额外配置"
+                    name="config"
+                    wrapperCol={{ span: 12 }}
+                >
+                    <Checkbox.Group
+                        style={{ textAlign: 'left' }}
+                        options={projectBuildOptions}
                     />
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 4 }}>
