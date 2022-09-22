@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState } from 'react';
-import { Row, Col, Card, Tag, Button, Modal } from 'antd';
+import { Row, Col, Card, Tag, Button, Modal, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 import http from '../../api/http';
 import { errorToast, successToast } from '../../utils/toast';
@@ -125,10 +125,15 @@ const ProjectList = ({ history = () => { } }) => {
                 }
                 const status = status_(newStatus)
                 return (
-                    <Col span={8} key={item_key} style={{ padding: '10px' }}>
+                    <Col span={6} key={item_key} style={{ padding: '10px' }}>
                         <Card
                             title={<div>
-                                {remark_name ? `${remark_name}(${name})` : `${name}`}
+                                {remark_name ? <>
+                                    {remark_name}
+                                    <br />
+                                    <span style={{ fontSize:'14px'}}>{name}</span>
+                                 </> 
+                                    : `${name}`}
                             </div>
                             }
                             hoverable
