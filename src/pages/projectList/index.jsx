@@ -16,7 +16,7 @@ const PROJECT_TYPE = {
     web: 'purple',
     react: 'red',
     vue: 'blue',
-    // js:'gold',
+    'vue3+ts':'gold',
     npm: 'magenta',
 }
 const PROJECT_STATUS = {

@@ -29,7 +29,7 @@ const projectTypeOptions = [
     { value: 'web', label: 'web' },
     { value: 'react', label: 'react' },
     { value: 'vue', label: 'vue' },
-    // { value: 'js', label: 'js' },
+    { value: 'vue3+ts', label: 'vue3+ts' },
     { value: 'npm', label: 'npm' },
 ]
 const projectLevel = {
